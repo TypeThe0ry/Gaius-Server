@@ -41,6 +41,7 @@ final class GaiusWebSocketGatewayTest {
                     2000,
                     4,
                     1024,
+                    true,
                     "fixture-value",
                     List.of("https://example.com"),
                     Logger.getLogger("GaiusWebSocketGatewayTest"));
