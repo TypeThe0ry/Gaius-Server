@@ -8,10 +8,11 @@ proxy. Normal Java clients continue to use the ordinary Minecraft port.
 Build with Java 21:
 
 ```sh
-mvn -f pom.xml package
+GAIUS_VERSION_PROFILE_PATH=versions/1.21.11.json \
+  mvn -B -ntp -f pom.xml package
 ```
 
-Copy `target/gaius-server-plugin-0.0.1.jar` into the Paper server's
+Copy `target/gaius-server-plugin-0.1.0.jar` into the Paper server's
 `plugins/` directory. The default WebSocket endpoint is
 `ws://example.com:8081/tunnel`. Use a TLS reverse proxy and `wss://` when the
 browser page is served over HTTPS. Set `access-token` and restrict
