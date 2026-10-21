@@ -216,7 +216,7 @@ final class GaiusWebSocketGatewayTest {
                 URI.create("ws://127.0.0.1:" + gatewayPort + "/tunnel")) {
             @Override
             public void onOpen(ServerHandshake handshake) {
-                send("{\"type\":\"connect\",\"host\":\"other.example\","
+                send("{\"type\":\"connect\",\"host\":\"other.example.com\","
                         + "\"port\":25565,\"token\":\"fixture-value\"}");
             }
 
