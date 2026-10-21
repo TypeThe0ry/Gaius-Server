@@ -22,8 +22,8 @@ transport contract is deliberately small:
   closes the other side.
 
 The control messages and binary framing match Relay protocol version 1. The
-plugin does not contain a game client, mappings, generated assets, or server
-data; it only supplies the Paper-side transport adapter.
+plugin does not contain a game client or server data; it only supplies the
+Paper-side transport adapter.
 
 ## Build
 
