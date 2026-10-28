@@ -335,10 +335,14 @@ final class GaiusWebSocketGateway extends WebSocketServer {
                 webSocket.close(CLOSE_POLICY, exception.getMessage());
                 return;
             }
-            if (!configuredTarget.equals(requestedTarget)) {
+            // The browser reached this endpoint through the host it typed, so
+            // that host names this machine (a LAN address, a DNS name, ...)
+            // and cannot equal the loopback minecraft-host. Only the port
+            // selects a server; the socket below always dials the configured one.
+            if (requestedTarget.port() != configuredTarget.port()) {
                 webSocket.close(
                         CLOSE_POLICY,
-                        "Gaius target does not match the configured Minecraft server");
+                        "Gaius target port does not match the configured Minecraft server");
                 return;
             }
             webSocket.send(controlMessage("connecting", requestedTarget));

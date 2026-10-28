@@ -12,7 +12,10 @@ transport contract is deliberately small:
 * WebSocket clients connect to `/tunnel` and must satisfy `allowed-origins`.
 * The first text message is `{"type":"connect"}`. It may include `host`,
   `port`, and `token`; omitted `host` and `port` mean the configured local
-  server. A supplied target must exactly match that configured server.
+  server. A supplied `host` is the address the browser used to reach this
+  machine and is echoed back unchanged; a supplied `port` must equal the
+  configured server's port. The plugin always dials only the configured
+  local server.
 * The plugin replies with `{"type":"connecting","host":...,"port":...,"targetConnectTimeoutMs":...}`
   and then `{"type":"connected","host":...,"port":...}` after the local
   socket is open. The browser may send `{"type":"flow","paused":true|false}`
@@ -46,6 +49,12 @@ the server. The default endpoint is:
 ws://example.com:8081/tunnel
 ```
 
+The browser client looks for the plugin on port 8081 of the host typed in the
+server list, so keep the default `websocket-port: 8081` unless every player
+opens the client with `?directPluginPort=<port>`. Players join with the normal
+game address (`<host>:<server-port>`), not the WebSocket port. The client uses
+offline-mode profiles, so set `online-mode=false` in `server.properties`.
+
 For an HTTPS browser page, terminate TLS at the deployment's reverse proxy and
 use the corresponding `wss://` endpoint. Set `minecraft-host` to the local
 bind address, keep `websocket-port` reachable from the browser, and restrict
@@ -53,8 +62,8 @@ bind address, keep `websocket-port` reachable from the browser, and restrict
 when the browser and server share an out-of-band token; the sample
 configuration contains no credential.
 
-The plugin always checks that a requested target is the configured local
-server. It enforces connection and frame-size limits, rejects unknown paths or
+The plugin always checks that a requested port is the configured local
+server's port. It enforces connection and frame-size limits, rejects unknown paths or
 control messages, and closes an in-flight local socket when its browser
 session ends.
 

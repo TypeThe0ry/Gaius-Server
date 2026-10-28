@@ -67,7 +67,7 @@ final class GaiusWebSocketGatewayTest {
                     URI.create("ws://127.0.0.1:" + gatewayPort + "/tunnel")) {
                 @Override
                 public void onOpen(ServerHandshake handshake) {
-                    send("{\"type\":\"connect\",\"host\":\" 127.0.0.1. \","
+                    send("{\"type\":\"connect\",\"host\":\" Play.Example.COM. \","
                             + "\"port\":" + minecraft.getLocalPort() + ",\"token\":\"fixture-value\"}");
                 }
 
@@ -104,13 +104,13 @@ final class GaiusWebSocketGatewayTest {
             try {
                 assertTrue(client.connectBlocking(5, TimeUnit.SECONDS));
                 assertEquals(
-                        "{\"type\":\"connecting\",\"host\":\"127.0.0.1\",\"port\":"
+                        "{\"type\":\"connecting\",\"host\":\"play.example.com\",\"port\":"
                                 + minecraft.getLocalPort()
                                 + ",\"targetConnectTimeoutMs\":2000}",
                         connectingControl.get(5, TimeUnit.SECONDS));
                 assertTrue(connected.await(5, TimeUnit.SECONDS));
                 assertEquals(
-                        "{\"type\":\"connected\",\"host\":\"127.0.0.1\",\"port\":"
+                        "{\"type\":\"connected\",\"host\":\"play.example.com\",\"port\":"
                                 + minecraft.getLocalPort() + "}",
                         connectedControl.get(5, TimeUnit.SECONDS));
                 assertArrayEquals(
@@ -190,7 +190,7 @@ final class GaiusWebSocketGatewayTest {
     }
 
     @Test
-    void rejectsTargetDifferentFromConfiguredMinecraftSocket() throws Exception {
+    void rejectsTargetPortDifferentFromConfiguredMinecraftSocket() throws Exception {
         AtomicBoolean socketCreated = new AtomicBoolean();
         GaiusWebSocketGateway gateway = new GaiusWebSocketGateway(
                 new InetSocketAddress("127.0.0.1", 0),
@@ -217,7 +217,7 @@ final class GaiusWebSocketGatewayTest {
             @Override
             public void onOpen(ServerHandshake handshake) {
                 send("{\"type\":\"connect\",\"host\":\"other.example.com\","
-                        + "\"port\":25565,\"token\":\"fixture-value\"}");
+                        + "\"port\":25566,\"token\":\"fixture-value\"}");
             }
 
             @Override
